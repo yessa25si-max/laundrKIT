@@ -202,9 +202,8 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
-            <i class="fa-solid fa-soap"></i>
-            <span>Laundr<strong style="color: var(--brand-primary);">KIT</strong></span>
+        <a href="{{ route('admin.dashboard') }}" class="sidebar-brand d-flex align-items-center justify-content-center py-2 px-3 rounded-3 bg-white mb-4 text-decoration-none shadow-sm">
+            <img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="laundryKIT" style="height: 36px; width: auto; object-fit: contain;">
         </a>
 
         <ul class="sidebar-nav">

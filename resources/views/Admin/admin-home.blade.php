@@ -122,7 +122,9 @@
 <body>
 
     <aside class="sidebar">
-        <div class="brand">LaundryKIT</div>
+        <div class="brand">
+            <img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="LaundryKIT" style="height: 38px; width: auto;">
+        </div>
 
         <a href="/admin-home" class="active">Dashboard Admin</a>
         <a href="/admin-home#pelanggan">Data Pelanggan</a>
