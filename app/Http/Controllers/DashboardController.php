@@ -6,7 +6,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Ganti 'welcome' sesuai nama file Blade landing page di folder resources/views/
-        return view('welcome');
+        // Mengembalikan template dashboard utama LaundryKIT
+        return view('admin.dashboard');
     }
 }

@@ -44,11 +44,12 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('pelanggan.index') }}">Pelanggan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('layanan.index') }}">Layanan Cuci</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('barang.index') }}">Perlengkapan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/admin-home') }}">Admin</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     <span class="fw-semibold text-muted d-none d-lg-inline"><i class="fa-solid fa-phone me-1 text-primary"></i> (08) 728 256 266</span>
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary px-3">
-                        <i class="fa-solid fa-gauge me-1"></i> Panel Admin
+                    <a href="{{ url('/admin-home') }}" class="btn btn-primary px-3">
+                        <i class="fa-solid fa-gauge me-1"></i> Admin
                     </a>
                 </div>
             </div>

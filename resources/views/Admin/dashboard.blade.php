@@ -27,12 +27,12 @@
 </head>
 <body>
     <!-- ? Preloader Start -->
-    <div <div <div id="preloader-active" style="display: none;">>>
+    <div id="preloader-active" style="display: none;">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="{{ asset('assets-admin/img/logo/loder.png') }}" alt="">
+                    <img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="LaundryKIT">
                 </div>
             </div>
         </div>
@@ -45,25 +45,17 @@
                 <!-- Logo -->
                 <div class="header-left">
                     <div class="logo">
-                        <a href="index.html"><img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="Logo LaundryKIT"
-                                                                                                            style="width: 150px; height: auto;">"></a>
+                        <a href="{{ url('/') }}"><img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="Logo LaundryKIT" style="width: 150px; height: auto;"></a>
                     </div>
                     <div class="menu-wrapper  d-flex align-items-center">
                         <!-- Main-menu -->
                         <div class="main-menu d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                    <li class="active"><a href="index.html">Home</a></li>
-                                    <li><a href="about.html">About</a></li>
-                                    <li><a href="services.html">Services</a></li>
-                                    <li><a href="blog.html">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog_details.html">Blog Details</a></li>
-                                            <li><a href="elements.html">Element</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li class="{{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
+                                    <li><a href="{{ route('pelanggan.index') }}">Pelanggan</a></li>
+                                    <li><a href="{{ route('layanan.index') }}">Layanan Cuci</a></li>
+                                    <li><a href="{{ route('barang.index') }}">Perlengkapan</a></li>
                                     <li>
                                         <a href="{{ url('/admin-home') }}">Admin</a>
                                     </li>

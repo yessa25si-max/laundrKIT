@@ -21,7 +21,7 @@ class AdminController extends Controller
         $latestLayanan = Layanan::latest('layanan_id')->take(5)->get();
         $latestBarang = Barang::latest('barang_id')->take(5)->get();
 
-        return view('admin.home', compact(
+        return view('admin.admin-home', compact(
             'totalPelanggan',
             'totalLayanan',
             'totalBarang',
