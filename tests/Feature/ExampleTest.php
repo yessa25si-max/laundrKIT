@@ -30,4 +30,15 @@ class ExampleTest extends TestCase
         $response->assertSee('Data Layanan Cuci');
         $response->assertSee('Data Perlengkapan');
     }
+
+    public function test_admin_url_variations_do_not_return_404(): void
+    {
+        $urls = ['/admin', '/admin/home', '/admin/dashboard', '/adminhome'];
+
+        foreach ($urls as $url) {
+            $response = $this->get($url);
+            $response->assertStatus(200);
+            $response->assertSee('Dashboard Admin 🎀');
+        }
+    }
 }

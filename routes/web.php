@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Halaman Admin Dashboard
+// Halaman Admin Dashboard (Mendukung semua variasi URL agar tidak Not Found)
 Route::get('/admin-home', [AdminController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/home', [AdminController::class, 'index']);
+Route::get('/admin/dashboard', [AdminController::class, 'index']);
+Route::get('/adminhome', [AdminController::class, 'index']);
 
 // 3 Modul Master Data (Tanpa Relasi) dengan CRUD Lengkap
 Route::resource('pelanggan', PelangganController::class);
