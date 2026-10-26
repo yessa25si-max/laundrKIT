@@ -275,6 +275,18 @@
             </div>
         </header>
 
+        @if (session('success'))
+            <div style="background: #E8F5E9; color: #2E7D32; padding: 14px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #C8E6C9; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <span>✓</span> {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div style="background: #FFEBEE; color: #C62828; padding: 14px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #FFCDD2; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <span>⚠</span> {{ session('error') }}
+            </div>
+        @endif
+
         <section class="cards">
             <div class="card">
                 <p>Total Pelanggan</p>
