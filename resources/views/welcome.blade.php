@@ -29,32 +29,8 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="LaundryKIT" style="height: 44px; width: auto;">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link active" href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pelanggan.index') }}">Pelanggan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('layanan.index') }}">Layanan Cuci</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('barang.index') }}">Perlengkapan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/admin-home') }}">Admin</a></li>
-                </ul>
-                <div class="d-flex align-items-center gap-3">
-                    <span class="fw-semibold text-muted d-none d-lg-inline"><i class="fa-solid fa-phone me-1 text-primary"></i> (08) 728 256 266</span>
-                    <a href="{{ url('/admin-home') }}" class="btn btn-primary px-3">
-                        <i class="fa-solid fa-gauge me-1"></i> Admin
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Public Navbar Partial View -->
+    @include('partials.public-navbar')
 
     <!-- Hero Section -->
     <section class="hero-section">

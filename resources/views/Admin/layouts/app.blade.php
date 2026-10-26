@@ -200,120 +200,19 @@
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <a href="{{ route('admin.dashboard') }}" class="sidebar-brand d-flex align-items-center justify-content-center py-2 px-3 rounded-3 bg-white mb-4 text-decoration-none shadow-sm">
-            <img src="{{ asset('assets-admin/assets/img/logo/logo.png') }}" alt="laundryKIT" style="height: 36px; width: auto; object-fit: contain;">
-        </a>
-
-        <ul class="sidebar-nav">
-            <li class="nav-category">Navigasi Utama</li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.dashboard') || request()->is('admin-home') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                    <i class="fa-solid fa-gauge"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-
-            <li class="nav-category">Master Data (3 Tabel)</li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}" href="{{ route('pelanggan.index') }}">
-                    <i class="fa-solid fa-users"></i>
-                    <span>Data Pelanggan</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('layanan.*') ? 'active' : '' }}" href="{{ route('layanan.index') }}">
-                    <i class="fa-solid fa-jug-detergent"></i>
-                    <span>Data Layanan Cuci</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('barang.*') ? 'active' : '' }}" href="{{ route('barang.index') }}">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <span>Data Perlengkapan</span>
-                </a>
-            </li>
-
-            <li class="nav-category">Website Publik</li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/') }}" target="_blank">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    <span>Halaman Depan</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="pt-3 border-top border-secondary text-secondary small">
-            <i class="fa-regular fa-circle-check text-success me-1"></i> Mode Admin Aktif
-        </div>
-    </aside>
+    <!-- Sidebar Partial View -->
+    @include('admin.partials.sidebar')
 
     <!-- Main Wrapper -->
     <div class="main-wrapper">
-        <!-- Top Navbar -->
-        <header class="top-navbar">
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-muted small">Panel Pengelolaan:</span>
-                <span class="fw-semibold text-dark">@yield('page_title', 'Admin Panel')</span>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <div class="text-end d-none d-sm-block">
-                    <div class="fw-bold text-dark small">Administrator LaundrKIT</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">admin@laundrkit.local</div>
-                </div>
-                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center text-secondary border" style="width: 40px; height: 40px;">
-                    <i class="fa-solid fa-user-tie"></i>
-                </div>
-            </div>
-        </header>
+        <!-- Top Navbar Partial View -->
+        @include('admin.partials.navbar')
 
         <!-- Page Body Content -->
         <main class="page-body">
 
-            {{-- Flash Message Success --}}
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-circle-check fs-5"></i>
-                        <div>
-                            <strong>Sukses!</strong> {{ session('success') }}
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            {{-- Flash Message Error --}}
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation fs-5"></i>
-                        <div>
-                            <strong>Peringatan!</strong> {{ session('error') }}
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            {{-- Global Validation Errors Alert --}}
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-                    <div class="d-flex align-items-start gap-2">
-                        <i class="fa-solid fa-circle-xmark fs-5 mt-1"></i>
-                        <div>
-                            <strong>Terjadi Kesalahan Validasi Input:</strong>
-                            <ul class="mb-0 mt-1 ps-3">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            {{-- Flash Messages & Validation Errors Partial View --}}
+            @include('admin.partials.alerts')
 
             @yield('content')
         </main>
