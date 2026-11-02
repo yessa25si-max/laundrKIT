@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Layanan extends Model
 {
@@ -22,4 +23,12 @@ class Layanan extends Model
         'durasi_jam',
         'deskripsi',
     ];
+
+    /**
+     * Relasi ke transaksi yang menggunakan layanan ini (One-to-Many).
+     */
+    public function transaksi(): HasMany
+    {
+        return $this->hasMany(Transaksi::class, 'layanan_id', 'layanan_id');
+    }
 }

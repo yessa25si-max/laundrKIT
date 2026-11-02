@@ -2,21 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class GuestController extends Controller
 {
     /**
      * Tampilkan Halaman Utama Publik (Home / Landing Page).
+     * Menerapkan pemanggilan data dengan ELOQUENT (Transaksi) dan QUERY BUILDER (Testimoni).
      */
-    public function home(): View
+    public function home(Request $request): View
     {
-        return view('guest.home');
+        // 1. Data Transaksi via ELOQUENT ORM (Relasi with 'pelanggan' dan 'layanan')
+        $latestTransaksi = Transaksi::with(['pelanggan', 'layanan'])
+            ->latest('transaksi_id')
+            ->take(5)
+            ->get();
+
+        // Fitur Cek Status Cucian (Tracking) via Eloquent jika ada pencarian kode
+        $searchResult = null;
+        if ($request->filled('tracking_code')) {
+            $code = trim($request->input('tracking_code'));
+            $searchResult = Transaksi::with(['pelanggan', 'layanan'])
+                ->where('kode_transaksi', $code)
+                ->orWhereHas('pelanggan', function ($q) use ($code) {
+                    $q->where('phone', $code);
+                })
+                ->first();
+        }
+
+        // 2. Data Testimoni via QUERY BUILDER (DB::table, JOIN pelanggan & layanan)
+        $listTestimoni = DB::table('testimoni')
+            ->join('pelanggan', 'testimoni.pelanggan_id', '=', 'pelanggan.pelanggan_id')
+            ->join('layanan', 'testimoni.layanan_id', '=', 'layanan.layanan_id')
+            ->where('testimoni.status_tampil', 'Tampilkan')
+            ->select(
+                'testimoni.*',
+                'pelanggan.first_name',
+                'pelanggan.last_name',
+                'layanan.nama_layanan'
+            )
+            ->orderBy('testimoni.rating', 'desc')
+            ->orderBy('testimoni.created_at', 'desc')
+            ->take(6)
+            ->get();
+
+        return view('guest.home', compact('latestTransaksi', 'searchResult', 'listTestimoni'));
     }
 
     /**
@@ -120,7 +157,7 @@ class GuestController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('admin.dashboard')
-            ->with('success', 'Pendaftaran akun berhasil! Selamat datang di LaundrKIT, ' . $user->name . '.');
+            ->with('success', 'Pendaftaran akun berhasil! Selamat datang di LaundrKIT, '.$user->name.'.');
     }
 
     /**

@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             PelangganSeeder::class,
             LayananSeeder::class,
             BarangSeeder::class,
+            TransaksiSeeder::class,
+            TestimoniSeeder::class,
         ]);
     }
 }

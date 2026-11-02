@@ -249,6 +249,10 @@
 
         <a href="{{ url('/admin-home') }}" class="active">Dashboard Admin</a>
         
+        <div class="sidebar-title">Transaksi & Ulasan</div>
+        <a href="{{ route('transaksi.index') }}">Data Transaksi (Eloquent)</a>
+        <a href="{{ route('testimoni.index') }}">Data Testimoni (Query Builder)</a>
+
         <div class="sidebar-title">Master Data</div>
         <a href="{{ route('pelanggan.index') }}">Data Pelanggan</a>
         <a href="{{ route('layanan.index') }}">Data Layanan Cuci</a>
@@ -256,10 +260,8 @@
 
         <div class="sidebar-divider"></div>
 
-        <div class="sidebar-title">Menu Lainnya</div>
-        <a href="#transaksi">Data Transaksi</a>
-        <a href="#laporan">Laporan</a>
-        <a href="{{ url('/') }}">Kembali ke Dashboard</a>
+        <div class="sidebar-title">Website Publik</div>
+        <a href="{{ url('/') }}">Halaman Depan (Guest)</a>
     </aside>
 
     <main class="main">
@@ -307,15 +309,21 @@
             </div>
 
             <div class="card">
-                <p>Total Transaksi</p>
-                <h2>0</h2>
-                <a href="#transaksi" class="card-link">Lihat Transaksi &rarr;</a>
+                <p>Total Transaksi (Eloquent)</p>
+                <h2>{{ $totalTransaksi ?? 0 }}</h2>
+                <a href="{{ route('transaksi.index') }}" class="card-link">Kelola Transaksi &rarr;</a>
             </div>
 
             <div class="card">
-                <p>Pesanan Selesai</p>
-                <h2>0</h2>
-                <a href="#transaksi" class="card-link">Lihat Pesanan &rarr;</a>
+                <p>Testimoni (Query Builder)</p>
+                <h2>{{ $totalTestimoni ?? 0 }}</h2>
+                <a href="{{ route('testimoni.index') }}" class="card-link">Kelola Testimoni &rarr;</a>
+            </div>
+
+            <div class="card">
+                <p>Total Omset Laundry</p>
+                <h2>Rp {{ number_format($totalOmset ?? 0, 0, ',', '.') }}</h2>
+                <a href="{{ route('transaksi.index') }}" class="card-link">Rincian Finansial &rarr;</a>
             </div>
         </section>
 
@@ -434,10 +442,70 @@
             @endif
         </section>
 
-        <!-- Seksi Transaksi -->
+        <!-- Seksi Transaksi (Eloquent ORM) -->
         <section class="content" id="transaksi">
-            <h2>Data Transaksi</h2>
-            <p>Halaman pengelolaan transaksi laundry akan kita buat berikutnya.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2>Data Transaksi Laundry (Eloquent ORM)</h2>
+                <div style="display: flex; gap: 8px;">
+                    <a href="{{ route('transaksi.create') }}" class="btn-pink">+ Catat Transaksi</a>
+                    <a href="{{ route('transaksi.index') }}" class="btn-pink-outline">Kelola Semua Transaksi</a>
+                </div>
+            </div>
+            <p>Daftar pesanan cucian pelanggan terkini yang dikelola dengan relasi Eloquent ORM:</p>
+
+            @if(isset($latestTransaksi) && $latestTransaksi->count() > 0)
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Kode Order</th>
+                            <th>Pelanggan</th>
+                            <th>Layanan</th>
+                            <th>Jumlah</th>
+                            <th>Total Tagihan</th>
+                            <th>Status Pengerjaan</th>
+                            <th>Pembayaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($latestTransaksi as $trx)
+                            <tr>
+                                <td><code>{{ $trx->kode_transaksi }}</code></td>
+                                <td><strong>{{ $trx->pelanggan->first_name ?? '-' }} {{ $trx->pelanggan->last_name ?? '' }}</strong></td>
+                                <td>{{ $trx->layanan->nama_layanan ?? '-' }}</td>
+                                <td>{{ $trx->berat_jumlah }} {{ $trx->layanan->satuan ?? 'Kg' }}</td>
+                                <td><strong style="color: #2e7d32;">Rp {{ number_format($trx->total_biaya, 0, ',', '.') }}</strong></td>
+                                <td>
+                                    <span style="display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; background: #e0f2fe; color: #0284c7;">
+                                        {{ $trx->status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="font-weight: bold; color: {{ $trx->status_pembayaran == 'Lunas' ? '#2e7d32' : '#d32f2f' }};">
+                                        {{ $trx->status_pembayaran }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p style="color: #999; font-style: italic; margin-top: 15px;">Belum ada data transaksi.</p>
+            @endif
+        </section>
+
+        <!-- Seksi Testimoni & Review (Query Builder) -->
+        <section class="content" id="testimoni">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2>Testimoni Pelanggan (Query Builder)</h2>
+                <div style="display: flex; gap: 8px;">
+                    <a href="{{ route('testimoni.create') }}" class="btn-pink">+ Tambah Ulasan</a>
+                    <a href="{{ route('testimoni.index') }}" class="btn-pink-outline">Kelola Semua Testimoni</a>
+                </div>
+            </div>
+            <p>Data testimoni dan ulasan kepuasan pelanggan yang dikelola menggunakan Laravel Query Builder (DB::table):</p>
+            <div style="margin-top: 15px;">
+                <a href="{{ route('testimoni.index') }}" class="btn-pink" style="display: inline-block; text-decoration: none;">Buka Modul Testimoni (Query Builder) &rarr;</a>
+            </div>
         </section>
 
         <!-- Seksi Laporan -->

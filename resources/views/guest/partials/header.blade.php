@@ -32,6 +32,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/#tracking') }}">
+                        <i class="fa-solid fa-receipt me-1"></i> Tracking Status
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/#testimoni') }}">
+                        <i class="fa-solid fa-star me-1"></i> Testimoni
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('layanan.*') ? 'active' : '' }}" href="{{ route('layanan.index') }}">
                         <i class="fa-solid fa-jug-detergent me-1"></i> Layanan Cuci
                     </a>

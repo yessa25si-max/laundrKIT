@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Layanan;
+use App\Models\Pelanggan;
+use App\Models\Transaksi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class GuestPageTest extends TestCase
@@ -12,7 +13,7 @@ class GuestPageTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test Halaman Home ( / ) dapat diakses dengan sukses.
+     * Test Halaman Home ( / ) dapat diakses dengan sukses dan memuat partial view Transaksi & Testimoni.
      */
     public function test_home_page_can_be_rendered(): void
     {
@@ -23,6 +24,50 @@ class GuestPageTest extends TestCase
         $response->assertSee('LaundrKIT');
         $response->assertSee('/auth');
         $response->assertSee('/register');
+        // Assert Partial Views yang baru ditambahkan
+        $response->assertSee('Pantau Status Cucian Anda Secara Realtime');
+        $response->assertSee('Apa Kata Pelanggan Tentang LaundrKIT?');
+    }
+
+    /**
+     * Test fitur tracking status cucian pada halaman guest.
+     */
+    public function test_guest_can_track_order_status(): void
+    {
+        $pelanggan = Pelanggan::create([
+            'first_name' => 'Doni',
+            'last_name' => 'Kusuma',
+            'email' => 'doni@example.com',
+            'phone' => '081233445566',
+        ]);
+
+        $layanan = Layanan::create([
+            'kode_layanan' => 'LYN-TRK',
+            'nama_layanan' => 'Cuci Kilat 3 Jam',
+            'kategori' => 'Cuci Kiloan',
+            'harga' => 15000,
+            'satuan' => 'Kg',
+            'durasi_jam' => 3,
+        ]);
+
+        Transaksi::create([
+            'kode_transaksi' => 'TRX-TRACK-01',
+            'pelanggan_id' => $pelanggan->pelanggan_id,
+            'layanan_id' => $layanan->layanan_id,
+            'berat_jumlah' => 2.0,
+            'total_biaya' => 30000,
+            'tgl_masuk' => '2026-11-02',
+            'status' => 'Diproses',
+            'status_pembayaran' => 'Lunas',
+        ]);
+
+        $response = $this->get('/?tracking_code=TRX-TRACK-01#tracking');
+
+        $response->assertStatus(200);
+        $response->assertSee('TRX-TRACK-01');
+        $response->assertSee('Doni Kusuma');
+        $response->assertSee('Cuci Kilat 3 Jam');
+        $response->assertSee('Sedang Dicuci / Diproses');
     }
 
     /**
@@ -127,4 +172,3 @@ class GuestPageTest extends TestCase
         $response->assertSessionHas('success');
     }
 }
-

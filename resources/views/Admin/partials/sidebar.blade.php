@@ -20,6 +20,20 @@
             </a>
         </li>
 
+        <li class="nav-category">Transaksi & Ulasan (2 CRUD Baru)</li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('transaksi.*') ? 'active' : '' }}" href="{{ route('transaksi.index') }}">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Data Transaksi (Eloquent)</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('testimoni.*') ? 'active' : '' }}" href="{{ route('testimoni.index') }}">
+                <i class="fa-solid fa-comments"></i>
+                <span>Data Testimoni (Query Builder)</span>
+            </a>
+        </li>
+
         <li class="nav-category">Master Data Laundry</li>
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}" href="{{ route('pelanggan.index') }}">

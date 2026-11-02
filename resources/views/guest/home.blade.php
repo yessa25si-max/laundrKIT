@@ -153,6 +153,12 @@
         </div>
     </section>
 
+    {{-- Partial View 1: Data Transaksi & Tracking Cucian (Eloquent ORM) --}}
+    @include('guest.partials.transaksi')
+
+    {{-- Partial View 2: Testimoni & Review Pelanggan (Query Builder DB::table) --}}
+    @include('guest.partials.testimoni')
+
     <!-- Call to Action Banner -->
     <section class="py-5 bg-white">
         <div class="container">

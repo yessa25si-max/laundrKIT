@@ -7,6 +7,8 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TestimoniController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,3 +65,10 @@ Route::resource('users', UserController::class);
 Route::resource('pelanggan', PelangganController::class);
 Route::resource('layanan', LayananController::class);
 Route::resource('barang', BarangController::class);
+
+// 2 Modul CRUD Baru Sesuai Arahan Tugas:
+// 1. Modul Transaksi (Menggunakan Eloquent ORM & Berelasi dengan Pelanggan & Layanan)
+Route::resource('transaksi', TransaksiController::class);
+
+// 2. Modul Testimoni (Menggunakan Query Builder DB::table & Berelasi dengan Pelanggan, Layanan, dan Transaksi)
+Route::resource('testimoni', TestimoniController::class);
